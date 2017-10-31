@@ -9,6 +9,7 @@
  */
 
 #include "CHOP_CPlusPlusBase.h"
+#include <Box2D/Box2D.h>
 
 /*
 
@@ -37,6 +38,12 @@ public:
 	virtual bool		getOutputInfo(CHOP_OutputInfo*) override;
 	virtual const char*	getChannelName(int32_t index, void* reserved) override;
 
+	// LiquidFun funtions
+	virtual void		m_generateGroundPlane();
+	virtual void		m_generateStaticBox(b2Vec2 pos, b2Vec2 size);
+	virtual void		m_generateDynamicCircle(int* eID, b2Vec2 pos, b2Vec2 vel, float size);
+	virtual void		m_spawnParticle(int* eID, b2Vec2 pos, b2Vec2 vel);
+
 	virtual void		execute(const CHOP_Output*,
 								OP_Inputs*,
 								void* reserved) override;
@@ -64,9 +71,35 @@ private:
 	// In this example this value will be incremented each time the execute()
 	// function is called, then passes back to the CHOP 
 	int32_t					 myExecuteCount;
-
-
 	double					 myOffset;
 
+	///////////////////////////////////////////////////////////////////////////
+	// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	// particle stuff
 
+	// reset flag
+	int						reset;
+	// spawn flag
+	int						spawn;
+	int						pCount;
+
+	b2Vec2					wallLeftPos;
+	b2Vec2					wallLeftSize;
+	b2Vec2					wallRightPos;
+	b2Vec2					wallRightSize;
+	b2Vec2					wallTopPos;
+	b2Vec2					wallTopSize;
+
+	b2Vec2					forceParticles;
+	b2Vec2					forceBodies;
+
+	int						particleType;
+	float					particleSize;
+
+	int						inNumParts;
+
+	//float					inData[10][1024];
+	// end particle stuff
+	// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	///////////////////////////////////////////////////////////////////////////
 };
